@@ -1,0 +1,61 @@
+name: energotechnics tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: 'Docker image tag (debug/latest)'
+        required: true
+        default: 'debug'
+        type: choice
+        options:
+          - debug
+          - latest
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Pull Docker image
+        run: docker pull evgeniy996/energotechnics_selenium_java:${{ github.event.inputs.image_tag }}
+      
+      - name: Create directories for Allure
+        run: |
+          mkdir -p allure-results
+          mkdir -p allure-report
+      
+      - name: Run tests and generate report
+        run: |
+          docker run \
+            --shm-size=2g \
+            -v "$(pwd)/allure-results:/app/allure-results" \
+            -v "$(pwd)/allure-report:/app/allure-report" \
+            evgeniy996/energotechnics_selenium_java:${{ github.event.inputs.image_tag }} || true
+      
+      - name: Upload Allure results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-results
+          path: allure-results/
+      
+      - name: Checkout gh-pages
+        uses: actions/checkout@v4
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+      
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        if: always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-report
+          force_orphan: true
