@@ -16,9 +16,6 @@ run-tests:
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ""
     IMAGE_TAG: ${IMAGE_TAG:-debug}
-  before_script:
-    - docker info
-    - echo "Selected Docker tag: $IMAGE_TAG"
   script:
     - |
       # Pull образа
