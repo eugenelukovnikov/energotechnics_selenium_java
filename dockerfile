@@ -25,5 +25,5 @@ COPY . .
 ENV CHROME_BIN=/usr/bin/google-chrome-stable
 
 # Command to run tests and generate allure report
-CMD ["/bin/bash", "-c", "mvn test -Dtest=ProductTest#checkAddToCompareButtonPersistenceAfterRefresh -Dheadless=true && allure generate allure-results -o allure-report && \
+CMD ["/bin/bash", "-c", "mvn test -Dheadless=true && allure generate allure-results -o allure-report && \
     echo 'Allure report generated in allure-report/'"]
