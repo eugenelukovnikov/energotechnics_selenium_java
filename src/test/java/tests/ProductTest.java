@@ -36,7 +36,6 @@ public class ProductTest extends BaseTest {
 
         assertTrue(productPage.isCounterDisplayedAfterAddingProduct(), "Счетчик должен отображаться вместо " +
                 "кнопки В корзину после нажатия на нее, но этого не произошло");
-
     }
 
     @Epic("Страница товара")
@@ -62,8 +61,6 @@ public class ProductTest extends BaseTest {
                 "после нажатия на нее, но этого не произошло");
 
         driver.navigate().refresh();
-
-        productPage = new ProductPage(driver);
 
         assertTrue(productPage.isFavoriteButtonActiveAfterClick(), "Кнопка В избранное должна выделяться " +
                 "после нажатия на нее, но этого не произошло");
