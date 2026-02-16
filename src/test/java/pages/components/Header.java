@@ -15,6 +15,7 @@ public class Header extends pages.BasePage {
     private final By basketButton = By.xpath("//a[@href='/basket/']");
     private final By megaMenuButton = By.xpath("//nav[@class='mega-menu']//a[@href='/catalog/']");
     private final By megaMenuCatalogLinks = By.className("header-menu__wide-child-link");
+    private final By addingNotice = By.cssSelector("div.notice__detail");
 
     public Header(WebDriver driver) {
 
@@ -26,6 +27,14 @@ public class Header extends pages.BasePage {
 
         driver.findElement(basketButton).click();
         return new BasketPage(driver);
+    }
+
+    @Step("Ожидание пока уведомление в шапке не пропадет")
+    public void isAddingNoticeDisappeared() {
+
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.invisibilityOfElementLocated(
+                        addingNotice));
     }
 
     @Step("Переход в каталог через Мега-меню")

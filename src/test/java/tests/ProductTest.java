@@ -63,6 +63,8 @@ public class ProductTest extends BaseTest {
 
         driver.navigate().refresh();
 
+        productPage = new ProductPage(driver);
+
         assertTrue(productPage.isFavoriteButtonActiveAfterClick(), "Кнопка В избранное должна выделяться " +
                 "после нажатия на нее, но этого не произошло");
     }

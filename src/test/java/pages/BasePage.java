@@ -1,12 +1,9 @@
 package pages;
 
-import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.io.ByteArrayInputStream;
 import java.time.Duration;
 
 public abstract class BasePage {
@@ -68,6 +65,5 @@ public abstract class BasePage {
         if(isWsChatWidgetVisible()) {
             js.executeScript("document.querySelector('div.ws-chat').remove()");
         }
-
     }
 }

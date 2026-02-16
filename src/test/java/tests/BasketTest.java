@@ -183,6 +183,8 @@ public class BasketTest extends BaseTest {
         String productNameInCart = productPage.getProductName();
         int productPriceInCart = productPage.getProductPrice();
 
+        header.isAddingNoticeDisappeared();
+
         BasketPage basketPage = header.goToBasket();
 
         int productPriceInBasket = basketPage.getProductPriceInBasket(0);
