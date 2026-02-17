@@ -6,7 +6,7 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
+import static org.junit.jupiter.api.Assertions.*;
 import java.time.Duration;
 
 public class BasketPage extends BasePage {
@@ -95,6 +95,18 @@ public class BasketPage extends BasePage {
         }
     }
 
+    @Step("Проверяем, что не отображается сообщение об удалении товара из корзины")
+    public boolean hasNotRemovedItemContainer() {
+
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(5))
+                    .until(ExpectedConditions.invisibilityOfElementLocated(removedItemContainer));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
     @Step("Ждем, что корзина станет пустой")
     public boolean isBasketShouldBeEmptyNow() {
 
@@ -106,5 +118,49 @@ public class BasketPage extends BasePage {
             return false;
         }
     }
+
+    @Step("Проверяем, что название товара в каталоге и название в корзине совпадают")
+    public void catalogProductNameShouldBeEqualProductNameInBasket(String productNameFromCatalog, String productNameInBasket) {
+
+        assertEquals(productNameFromCatalog, productNameInBasket, "Название в каталоге:\n" + productNameFromCatalog +
+                "\nне совпало с названием в корзине:\n" + productNameInBasket);
+    }
+
+    @Step("Проверяем, что цена товара в каталоге и цена в корзине совпадают")
+    public void catalogProductPriceShouldBeEqualProductPriceInBasket(int productPriceFromCatalog, int productPriceInBasket) {
+
+        assertEquals(productPriceFromCatalog, productPriceInBasket, "Цена товара в каталоге:\n" + productPriceFromCatalog +
+                "\nне совпала с ценой в корзине:\n" + productPriceInBasket);
+    }
+
+    @Step("Проверяем, что цена товара(-ов) в корзине и сумма в корзине совпадают")
+    public void sumInBasketShouldBeCalculatedCorrectly(int firstProductPriceInBasket, int secondProductPriceInBasket, int basketSum) {
+
+        assertEquals(firstProductPriceInBasket + secondProductPriceInBasket, basketSum,
+                "Сумма цен товаров: " + firstProductPriceInBasket + " и " + secondProductPriceInBasket +
+                        " и итоговая сумма корзины: "
+        + basketSum + " должны совпадать, но не совпали");
+    }
+
+    @Step("Проверяем, что название товара в карточке и название в корзине совпадают")
+    public void cartProductNameShouldBeEqualProductNameInBasket(String productNameInCart, String productNameInBasket) {
+
+        assertEquals(productNameInCart, productNameInBasket, "Название в карточке:\n" + productNameInCart +
+                "\nне совпало с названием в корзине:\n" + productNameInBasket);
+    }
+
+    @Step("Проверяем, что цена товара в карточке и цена в корзине совпадают")
+    public void cartProductPriceShouldBeEqualProductPriceInBasket(int productPriceInCart, int productPriceInBasket) {
+
+        assertEquals(productPriceInCart, productPriceInBasket, "Цена в карточке:\n" + productPriceInCart +
+                "\nне совпала с ценой в корзине:\n" + productPriceInBasket);
+    }
+
+    @Step("Проверяем, что текст в пустой корзине совпадает с ожидаемым")
+    public void messageInEmptyBasketShouldBeCorrect(String expectedEmptyBasketText, String actualEmptyBasketText) {
+
+        assertEquals(expectedEmptyBasketText, actualEmptyBasketText, "Ожидаемое сообщение не совпало с полученным");
+    }
+
 }
 

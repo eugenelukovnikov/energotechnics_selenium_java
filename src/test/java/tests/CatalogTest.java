@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Tag;
 import pages.CatalogPage;
 import org.junit.jupiter.api.Test;
 import utils.ScreenshotUtils;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CatalogTest extends BaseTest {
@@ -39,9 +38,10 @@ public class CatalogTest extends BaseTest {
         String h1 = catalogPage.getH1Text();
         String urlAfter = driver.getCurrentUrl();
 
-        assertNotEquals(urlBefore, urlAfter, "Урлы не совпали.");
-        assertEquals("Дизельные генераторы c количеством фаз 1 - купить в Москве", title, "Ожидаемый Title не совпал с полученным.");
-        assertEquals("Дизельные однофазные генераторы 220 В в Москве", h1, "Ожидаемый H1 не совпал с полученным.");
+        catalogPage.urlBeforeAndUrlAfterNotEquals(urlBefore, urlAfter);
+        catalogPage.titleBeforeAndTitleAfterEquals("Дизельные генераторы c количеством фаз 1 - купить в Москве",
+                title);
+        catalogPage.h1BeforeAndH1AfterEquals("Дизельные однофазные генераторы 220 В в Москве", h1);
 
     }
 
@@ -66,7 +66,7 @@ public class CatalogTest extends BaseTest {
 
         assertTrue(catalogPage.isCounterDisplayedAfterAddingProduct(), "Счетчик не отобразился");
 
-        driver.navigate().refresh();
+        catalogPage.refreshPage();
 
         catalogPage.isCatalogBlockShouldLoad();
 
@@ -94,7 +94,7 @@ public class CatalogTest extends BaseTest {
 
         assertTrue(catalogPage.isFavoriteButtonActiveAfterClick(0), "Кнопка 'В избранное' не выделяется");
 
-        driver.navigate().refresh();
+        catalogPage.refreshPage();
 
         catalogPage.isCatalogBlockShouldLoad();
 
@@ -122,7 +122,7 @@ public class CatalogTest extends BaseTest {
 
         assertTrue(catalogPage.isCompareButtonActiveAfterClick(0), "Кнопка 'В сравнение' не выделяется");
 
-        driver.navigate().refresh();
+        catalogPage.refreshPage();
 
         catalogPage.isCatalogBlockShouldLoad();
 

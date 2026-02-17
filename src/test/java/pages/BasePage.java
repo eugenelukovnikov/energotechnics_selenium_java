@@ -66,4 +66,9 @@ public abstract class BasePage {
             js.executeScript("document.querySelector('div.ws-chat').remove()");
         }
     }
+
+    @Step("Обновляем страницу")
+    public void refreshPage() {
+        driver.navigate().refresh();
+    }
 }

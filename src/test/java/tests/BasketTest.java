@@ -45,9 +45,9 @@ public class BasketTest extends BaseTest {
         int basketSum = basketPage.getBasketSum();
         String productNameInBasket = basketPage.getProductNameInBasket(0);
 
-        assertEquals(productNameFromCatalog, productNameInBasket);
-        assertEquals(productPriceFromCatalog, productPriceInBasket);
-        assertEquals(productPriceInBasket, basketSum);
+        basketPage.catalogProductNameShouldBeEqualProductNameInBasket(productNameFromCatalog, productNameInBasket);
+        basketPage.catalogProductPriceShouldBeEqualProductPriceInBasket(productPriceFromCatalog, productPriceInBasket);
+        basketPage.sumInBasketShouldBeCalculatedCorrectly(productPriceInBasket, 0, basketSum);
 
     }
 
@@ -81,8 +81,7 @@ public class BasketTest extends BaseTest {
         int secondProductPrice = basketPage.getProductPriceInBasket(1);
         int basketSum = basketPage.getBasketSum();
 
-        assertEquals(firstProductPrice + secondProductPrice, basketSum, "Сумма цен товаров: " + firstProductPrice + " и " + secondProductPrice + " и итоговая сумма корзины: " + basketSum + " должны совпадать, но не совпали.");
-
+        basketPage.sumInBasketShouldBeCalculatedCorrectly(firstProductPrice, secondProductPrice, basketSum);
     }
 
     @Epic("Корзина")
@@ -108,6 +107,7 @@ public class BasketTest extends BaseTest {
 
         assertEquals("Ваша корзина пуста", emptyBasketMessage, "Ожидаемое сообщение не совпало с полученным: " + emptyBasketMessage);
 
+        basketPage.messageInEmptyBasketShouldBeCorrect("Ваша корзина пуста", emptyBasketMessage);
     }
 
     @Epic("Корзина")
@@ -144,9 +144,8 @@ public class BasketTest extends BaseTest {
         int productPriceInBasket = basketPage.getProductPriceInBasket(0);
         String productNameInBasket = basketPage.getProductNameInBasket(0);
 
-        assertEquals(productNameInCart, productNameInBasket, "Название в карточке:\n" + productNameInCart + "\nне совпало с названием в корзине:\n" + productNameInBasket);
-        assertEquals(productPriceInCart, productPriceInBasket, "Цена в карточке:\n" + productPriceInCart + "\nне совпало с названием в корзине:\n" + productPriceInBasket);
-
+        basketPage.cartProductNameShouldBeEqualProductNameInBasket(productNameInCart, productNameInBasket);
+        basketPage.cartProductPriceShouldBeEqualProductPriceInBasket(productPriceInCart, productPriceInBasket);
     }
 
     @Epic("Корзина")
@@ -190,9 +189,8 @@ public class BasketTest extends BaseTest {
         int productPriceInBasket = basketPage.getProductPriceInBasket(0);
         String productNameInBasket = basketPage.getProductNameInBasket(0);
 
-        assertEquals(productNameInCart, productNameInBasket,"Название в карточке:\n" + productNameInCart + "\nне совпало с названием в корзине:\n" + productNameInBasket);
-        assertEquals(productPriceInCart, productPriceInBasket, "Цена в карточке:\n" + productPriceInCart + "\nне совпало с названием в корзине:\n" + productPriceInBasket);
-
+        basketPage.cartProductNameShouldBeEqualProductNameInBasket(productNameInCart, productNameInBasket);
+        basketPage.cartProductPriceShouldBeEqualProductPriceInBasket(productPriceInCart, productPriceInBasket);
     }
 
     @Epic("Корзина")
@@ -226,14 +224,13 @@ public class BasketTest extends BaseTest {
 
         assertTrue(basketPage.hasRemovedItemContainer(), "Сообщение об удалении товара не появилось");
 
-        driver.navigate().refresh();
+        basketPage.refreshPage();
 
         basketPage.isBasketShouldBeEmptyNow();
 
         String emptyBasketMessage = basketPage.getEmptyBasketText();
 
-        assertEquals("Ваша корзина пуста", emptyBasketMessage, "Ожидаемое сообщение не совпало с полученным: " + emptyBasketMessage);
-
+        basketPage.messageInEmptyBasketShouldBeCorrect("Ваша корзина пуста", emptyBasketMessage);
     }
 
     @Epic("Корзина")
@@ -264,16 +261,15 @@ public class BasketTest extends BaseTest {
 
         basketPage.cleanBasket();
 
-        ScreenshotUtils.attachPageScreenshot("Корзина должна стать пустой");
+        basketPage.refreshPage();
 
-        driver.navigate().refresh();
+        ScreenshotUtils.attachPageScreenshot("Корзина должна быть пустой");
 
         assertTrue(basketPage.isBasketShouldBeEmptyNow(), "Сообщение о пустой корзине не отображается");
 
         String emptyBasketMessage = basketPage.getEmptyBasketText();
 
-        assertEquals("Ваша корзина пуста", emptyBasketMessage, "Ожидаемое сообщение не совпало " +
-                "с полученным: " + emptyBasketMessage);
+        basketPage.messageInEmptyBasketShouldBeCorrect("Ваша корзина пуста", emptyBasketMessage);
     }
 
     @Epic("Корзина")
@@ -305,6 +301,6 @@ public class BasketTest extends BaseTest {
         basketPage.clickRemoveProductFromBasketButton(0);
         assertTrue(basketPage.hasRemovedItemContainer(), "Сообщение об удалении товара не появилось.");
         basketPage.clickRestoreRemovedProductInBasketButton(0);
-        assertFalse(basketPage.hasRemovedItemContainer(), "Сообщение об удалении товара пропало.");
+        assertTrue(basketPage.hasNotRemovedItemContainer(), "Сообщение об удалении товара не пропало.");
     }
 }

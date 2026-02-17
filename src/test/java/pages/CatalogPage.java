@@ -6,6 +6,7 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import static org.junit.jupiter.api.Assertions.*;
 import java.time.Duration;
 
 public class CatalogPage extends BasePage {
@@ -142,6 +143,23 @@ public class CatalogPage extends BasePage {
                 .until(ExpectedConditions.visibilityOfElementLocated(catalogBlock));
     }
 
+    @Step("Урлы не должны совпадать")
+    public void urlBeforeAndUrlAfterNotEquals(String urlBefore, String urlAfter) {
+
+       assertNotEquals(urlBefore, urlAfter, "Урлы не совпали.");
+    }
+
+    @Step("Ожидаемый и полученный Title совпадают")
+    public void titleBeforeAndTitleAfterEquals(String titleBefore, String titleAfter) {
+
+        assertEquals(titleBefore, titleAfter, "Ожидаемый Title не совпал с полученным.");
+    }
+
+    @Step("Ожидаемый и полученный H1 совпадают")
+    public void h1BeforeAndH1AfterEquals(String h1Before, String h1After) {
+
+        assertEquals(h1Before, h1After, "Ожидаемый H1 не совпал с полученным.");
+    }
 
 }
 

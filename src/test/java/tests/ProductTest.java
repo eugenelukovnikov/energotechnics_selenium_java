@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Tag;
 import io.qameta.allure.*;
 import utils.ScreenshotUtils;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ProductTest extends BaseTest {
@@ -27,12 +26,12 @@ public class ProductTest extends BaseTest {
 
         productPage.clickAddToBasket();
 
-        ScreenshotUtils.attachPageScreenshot("Кнопка после клика должна быть активна");
+        ScreenshotUtils.attachPageScreenshot("Кнопка В корзину после клика должна быть счетчиком");
 
         assertTrue(productPage.isCounterDisplayedAfterAddingProduct(), "Счетчик должен отображаться вместо " +
                 "кнопки В корзину после нажатия на нее, но этого не произошло");
 
-        driver.navigate().refresh();
+        productPage.refreshPage();
 
         assertTrue(productPage.isCounterDisplayedAfterAddingProduct(), "Счетчик должен отображаться вместо " +
                 "кнопки В корзину после нажатия на нее, но этого не произошло");
@@ -60,7 +59,7 @@ public class ProductTest extends BaseTest {
         assertTrue(productPage.isFavoriteButtonActiveAfterClick(), "Кнопка В избранное должна выделяться " +
                 "после нажатия на нее, но этого не произошло");
 
-        driver.navigate().refresh();
+        productPage.refreshPage();
 
         assertTrue(productPage.isFavoriteButtonActiveAfterClick(), "Кнопка В избранное должна выделяться " +
                 "после нажатия на нее, но этого не произошло");
@@ -89,7 +88,7 @@ public class ProductTest extends BaseTest {
         assertTrue(productPage.isCompareButtonActiveAfterClick(), "Кнопка В сравнение должна выделяться " +
                 "после нажатия на нее, но этого не произошло");
 
-        driver.navigate().refresh();
+        productPage.refreshPage();
 
         assertTrue(productPage.isCompareButtonActiveAfterClick(), "Кнопка В сравнение должна выделяться " +
                 "после нажатия на нее, но этого не произошло");
